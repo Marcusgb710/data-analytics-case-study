@@ -209,8 +209,8 @@ comp<- all_trips_v2 %>%
 counts <- aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN=mean)
 comp <- aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$time_stamp, FUN=mean)
 
-write.csv(rides_per_month, file="C:/Users/marcu/Desktop/datacasestudy/rides_per_month.csv")
-write.csv(time_df, file="C:/Users/marcu/Desktop/datacasestudy/avg_trip_during_day.csv")
-write.csv(counts, file="C:/Users/marcu/Desktop/datacasestudy/avg_ride_length.csv")
-write.csv(comp, file="C:/Users/marcu/Desktop/datacasestudy/ride_length_comparison2.csv")
+write.csv(rides_per_month, file="C:/Users/marcu/Desktop/datacasestudy/Clean Data/rides_per_month.csv")
+write.csv(time_df, file="C:/Users/marcu/Desktop/datacasestudy/Clean Data/avg_trip_during_day.csv")
+write.csv(counts, file="C:/Users/marcu/Desktop/datacasestudy/Clean Data/avg_ride_length.csv")
+write.csv(comp, file="C:/Users/marcu/Desktop/datacasestudy/Clean Data/ride_length_comparison2.csv")
 
