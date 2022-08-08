@@ -1,0 +1,114 @@
+---
+title: "The Difference Between Casual Riders and Members"
+author: "Marcus Garvey-Bassett"
+date: "2022-07-28"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## The task
+
+At the end of Google's data analytics course I decided to take on the challenge of completing a case study to put my skills I've gained to use and present to the world how i can apply those skills to a business. I was given data that was provided by the course where I decided to use the four most recent data sets and was given a scenario where I am a Data Analyst at a bike ride sharing company where it's trying to find the best way to advertise to convert casual riders to annual members.
+
+The Ride sharing company Cyclistic has assigned me the task of finding out how Casual Riders and Members use the service differently. I use R for my data cleaning, analysis, and basic visualizations. Tableau was used for my final data visualizations to use in my presentation because it is easier to create compelling visuals. I really enjoyed doing this project. I was finally able to see my progress all come together and now I feel more confident than ever to put my foot in the door as an aspiring Data Analyst.
+
+##Data cleaning
+
+After figuring out the libraries I needed and assigned the data to variables, I took a look at the column names to get a vague idea of what's in each column and see if i need to change any column names so it is easier to combine all the data.
+
+```{r column_namesq2}
+colnames(quarter_2_2019)
+
+```
+
+```{r column_namesq3}
+colnames(quarter_3_2019)
+
+```
+
+```{r column_namesq4}
+colnames(quarter_4_2019)
+
+```
+
+```{r column_namesq12020}
+colnames(quarter_1_2020)
+
+```
+
+Clearly in the second quarter of 2019 had drastically different column names then they have in their most recent data. The last Two quarters column names were similar to what the most recent data column names are. I then changed the names so all the columns that were related had the same name, mutated data types so the data stacked correctly and created a new data frame and assigned it to a variable.
+
+```{r trips}
+all_trips
+```
+
+After combining the data I dropped all the rows that weren't included in the most recent dataframe to maintain data integrity. I then summarized the dataframe to see the characteristics of the data.
+
+```{r trip_columns}
+colnames(all_trips)
+```
+
+```{r trip_rows}
+nrow(all_trips)
+```
+
+```{r trip_dim}
+dim(all_trips)
+```
+
+```{r trip_head}
+head(all_trips)
+```
+
+```{r trip_str}
+str(all_trips)
+```
+
+```{r trip_summary}
+summary(all_trips)
+```
+
+After summarizing the dataset I then changed the values in the "member_casual" column so that they were all consistent and created new columns based on different Datetime criteria. To make things easier for my analysis I converted the time that was broken into intervals and numerical values for the days of the week were converted to the name of the week correlating with the number. Finally I convert the "ride_length" column into a numeric value so analysis is easier to do and create a new data frame where we dropped rows based on if the starting location was "HQ".
+
+```{r trips2}
+all_trips_v2
+```
+
+## Analysis
+
+FULL CODE CAN BE FOUND IN "data cleaning.R" From our analysis we can tell that casual riders have a far greater ride time than members. I came to the conclusion that they do this because some people could be visitors, families, or someone who doesn't know about the membership. I used this to create a visualization not only in R but in tableau.
+
+```{r trips_length}
+summary(all_trips_v2$ride_length)
+
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=mean)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=median)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=max)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=min)
+```
+
+##Visualization
+
+This Visualization used the weekdays to show who averages the longest ride between members and casual riders.
+
+```{r ride visualization, echo=FALSE}
+all_trips_v2 %>% 
+  mutate(weekday=wday(started_at, label=TRUE)) %>% 
+  group_by(member_casual, weekday) %>% 
+  summarise(number_of_rides=n(), average_duration=mean(ride_length)) %>% 
+  arrange(member_casual, weekday) %>% 
+  ggplot(aes(x=weekday, y=average_duration, fill=member_casual)) +
+  geom_col(position="dodge")
+```
+
+## Conclusion
+
+During this project I have proved to myself that all the skills I have been learning could be put to use in a real world setting. Not only does this excite me because it opens up many doors that i never thought i would step through but i proved to myself that pushing through rough patches and putting in the extra effort to understand what i'm learning could help me accomplish so much. I ended up making a presentation explaining my findings and what I feel could help convert casual riders to members.
+
+Link to presentation: (<https://docs.google.com/presentation/d/e/2PACX-1vRT2D7Raxl296hp1BYOWUWYpc1zKfW2Cag_zOfy7KLip0LCIIj7HuernKpRUlemmGMePOk0vPiqCe_8/pub?start=false&loop=false&delayms=3000>)

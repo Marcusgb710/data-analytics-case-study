@@ -69,7 +69,7 @@ all_trips <- bind_rows(quarter_2_2019, quarter_3_2019, quarter_4_2019, quarter_1
 View(all_trips)
 colnames(all_trips)
 
-#Maintane data integrity by dropping sensitive, old, ore unrrelevant data
+#Maintane data integrity by dropping sensitive, old, ore irrelevant data
 all_trips <- all_trips %>% 
   select(-c("01 - Rental Details Duration In Seconds Uncapped", "05 - Member Details Member Birthday Year", "start_lat", "end_lat", "start_lng", "end_lng", "gender", "Member Gender", "birthyear", "tripduration"))
 colnames(all_trips)
@@ -119,6 +119,8 @@ min(all_trips_v2$ride_length)
 
 summary(all_trips_v2$ride_length)
 
+#create separate subsets of data for uncluttered analysis
+
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=mean)
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=median)
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN=max)
@@ -129,7 +131,6 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$d
 
 aggregate(all_trips_v2$member_casual ~ all_trips_v2$month, FUN=max)
 aggregate(all_trips_v2$member_casual ~ all_trips_v2$month, FUN=min)
-
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$time_stamp, FUN=mean)
 
 all_trips_v2 %>% 
